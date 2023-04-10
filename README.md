@@ -10,4 +10,4 @@ https://user-images.githubusercontent.com/56275523/230953522-44699ccb-9c8f-4d04-
 Well, I had some free time from studies and really wanted to get **started** with Go.
 
 
-### Thanks to [Laky-64](https://github.com/Laky-64) for reviewing my code and making some little improvements! ❤️
+#### Thanks to [Laky-64](https://github.com/Laky-64) for reviewing my code and making some little improvements! ❤️
