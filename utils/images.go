@@ -24,6 +24,7 @@ func LoadImage(imagePath string) image.Image {
 	}
 
 	img, _, err := image.Decode(imageFile)
+
 	if err != nil {
 		panic(err)
 	}

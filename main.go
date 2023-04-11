@@ -75,8 +75,8 @@ func main() {
 
 		imgWatermark.ApplyWatermark(newImage)
 		utils.SaveImage(utils.OutputPath, newImage)
-
 		utils.ClearScreen()
+
 		for {
 			editingChoice = utils.DisplayEditingMenu()
 

@@ -62,11 +62,10 @@ func TextTooLong(textLength, imageX, gap int, position string) bool {
 func ClearScreen() {
 	var command *exec.Cmd
 
-	switch runtime.GOOS {
-	case "linux":
-		command = exec.Command("clear")
-	case "windows":
+	if runtime.GOOS == "windows" {
 		command = exec.Command("cmd", "/c", "cls")
+	} else {
+		command = exec.Command("clear")
 	}
 
 	command.Stdout = os.Stdout
