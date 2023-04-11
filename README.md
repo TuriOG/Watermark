@@ -1,5 +1,4 @@
-# Watermark
- A simple Go program that helps you putting a watermark in your images.
+#### A simple Go program that helps you putting a watermark in your images.
 
 
 ## How it works:
