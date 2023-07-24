@@ -8,11 +8,11 @@ import (
 	"strings"
 )
 
-func CalculatePosition(position string, watermarkParams watermark.Params) (int, int) {
-	imageX, imageY := watermarkParams.Position.X, watermarkParams.Position.Y
+func CalculateWaterMarkPosition(position string, watermarkParams watermark.Params) (int, int) {
+	imageX, imageY := watermarkParams.ImgCoordinates.X, watermarkParams.ImgCoordinates.Y
 	waterMarkWidth := watermarkParams.Width
-	fontSize := watermarkParams.FontSize
-	gap := watermarkParams.Gap
+	fontSize := int(watermarkParams.FontSize)
+	defaultFontSize := int(DefaultFontSize)
 
 	coords := strings.Split(position, "-")
 
@@ -24,39 +24,29 @@ func CalculatePosition(position string, watermarkParams watermark.Params) (int, 
 	case "center":
 		imageY /= 2
 	case "top":
-		imageY = int(fontSize)
+		imageY = fontSize
 	case "bottom":
-		imageY -= gap
+		imageY -= defaultFontSize
 	}
 
 	switch coords[1] {
 	case "center":
 		imageX = (imageX - waterMarkWidth) / 2
 	case "right":
-		imageX -= waterMarkWidth + gap
+		imageX -= waterMarkWidth + defaultFontSize
 	case "left":
-		imageX = gap
+		imageX = defaultFontSize
 	}
 
 	return imageX, imageY
 }
 
-func GetValueFromChoice(choice string) string {
-	splitString := strings.Split(choice, " ")
-
-	for x := range splitString {
-		splitString[x] = strings.ToLower(splitString[x])
-	}
-
-	return strings.Join(splitString, "-")
-}
-
-func TextTooLong(textLength, imageX, gap int, position string) bool {
+func TextTooLong(textLength, imageX int, position string) bool {
 	if position == "center" {
 		return textLength > imageX
 	}
 
-	return textLength+gap > imageX
+	return textLength+int(DefaultFontSize) > imageX
 }
 
 func ClearScreen() {

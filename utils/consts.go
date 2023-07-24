@@ -2,8 +2,9 @@ package utils
 
 var (
 	AssetsPath      = "assets"
-	ImagePath       = AssetsPath + "/images/image.jpg"
-	OutputPath      = AssetsPath + "/images/output.png"
+	ImagesPath      = AssetsPath + "/images"
+	InputPath       = ImagesPath + "/image.jpg"
+	OutputPath      = ImagesPath + "/output.png"
 	FontPath        = AssetsPath + "/font.ttf"
 	PositionChoices = []string{
 		"Center",
@@ -16,5 +17,4 @@ var (
 	}
 	DefaultFontSize   = 20.0
 	FontSizeIncrement = 10.5
-	Gap               = 15
 )

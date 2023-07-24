@@ -33,6 +33,16 @@ func displayPrompt[T types.Prompt](label string, items []string, searcher list.S
 	return getSelectedValue(result)
 }
 
+func GetValueFromChoice(choice string) string {
+	splitString := strings.Split(choice, " ")
+
+	for x := range splitString {
+		splitString[x] = strings.ToLower(splitString[x])
+	}
+
+	return strings.Join(splitString, "-")
+}
+
 func DisplayBaseMenu() string {
 	watermarkPosition := displayPrompt(
 		"Welcome! Please, select the position for the watermark:",
@@ -51,10 +61,7 @@ func DisplayColorMenu() color.RGBA {
 		"Great! Now select the color. You can search a specific one by hitting /",
 		colornames.Names,
 		func(input string, index int) bool {
-			colorFound := colornames.Names[index]
-			input = strings.Replace(strings.ToLower(input), " ", "", -1)
-
-			return strings.Contains(colorFound, input)
+			return strings.Contains(colornames.Names[index], input)
 		},
 		func(result string) color.RGBA {
 			return colornames.Map[result]

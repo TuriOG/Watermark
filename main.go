@@ -22,27 +22,26 @@ func main() {
 	fontSize := utils.DefaultFontSize
 	face := utils.GetFace(fontSize)
 
-	srcImage := utils.LoadImage(utils.ImagePath)
-	bounds := srcImage.Bounds()
-	coords := types.Coords{X: bounds.Dx(), Y: bounds.Dy()}
-	gap := utils.Gap
+	srcImage := utils.LoadImage(utils.InputPath)
+	imageBounds := srcImage.Bounds()
+	imageCoords := types.Coords{X: imageBounds.Dx(), Y: imageBounds.Dy()}
 
 	scanner := bufio.NewScanner(os.Stdin)
-	var text string
+	var inputText string
 	var waterMarkWidth int
 
 	for {
 		fmt.Println("Ok! Now enter the text that will be used as a watermark:")
 		scanner.Scan()
-		text = scanner.Text()
-		waterMarkWidth = font.MeasureString(face, text).Ceil()
+		inputText = scanner.Text()
+		waterMarkWidth = font.MeasureString(face, inputText).Ceil()
 
-		if len(text) == 0 {
+		if len(inputText) == 0 {
 			fmt.Println("You didn't enter any text. Please try again.")
 			continue
 		}
 
-		if utils.TextTooLong(waterMarkWidth, coords.X, gap, waterMarkPosition) {
+		if utils.TextTooLong(waterMarkWidth, imageCoords.X, waterMarkPosition) {
 			fmt.Println("The text is too long! Please try again.")
 			continue
 		}
@@ -56,21 +55,20 @@ func main() {
 			break
 		}
 
-		newImage := image.NewRGBA(bounds)
-		draw.Draw(newImage, bounds, srcImage, bounds.Min, draw.Src)
+		newImage := image.NewRGBA(imageBounds)
+		draw.Draw(newImage, imageBounds, srcImage, imageBounds.Min, draw.Src)
 
-		x, y := utils.CalculatePosition(waterMarkPosition, watermark.Params{
-			Position: coords,
-			Width:    waterMarkWidth,
-			FontSize: fontSize,
-			Gap:      gap,
+		waterMarkX, waterMarkY := utils.CalculateWaterMarkPosition(waterMarkPosition, watermark.Params{
+			ImgCoordinates: imageCoords,
+			Width:          waterMarkWidth,
+			FontSize:       fontSize,
 		})
 
 		imgWatermark := watermark.Watermark{
-			Text:  text,
+			Text:  inputText,
 			Color: waterMarkColor,
 			Font:  &face,
-			Point: fixed.Point26_6{X: fixed.Int26_6(x * 64), Y: fixed.Int26_6(y * 64)},
+			Point: fixed.Point26_6{X: fixed.Int26_6(waterMarkX * 64), Y: fixed.Int26_6(waterMarkY * 64)},
 		}
 
 		imgWatermark.ApplyWatermark(newImage)
@@ -86,9 +84,9 @@ func main() {
 
 				newFontSize := utils.EditFontSize(fontChoice, fontSize)
 				newFace := utils.GetFace(newFontSize)
-				newWaterMarkWidth := font.MeasureString(newFace, text).Ceil()
+				newWaterMarkWidth := font.MeasureString(newFace, inputText).Ceil()
 
-				if utils.TextTooLong(newWaterMarkWidth, coords.X, gap, waterMarkPosition) {
+				if utils.TextTooLong(newWaterMarkWidth, imageCoords.X, waterMarkPosition) {
 					fmt.Println("The text is too long! You can't increase it any further.")
 					continue
 				}
@@ -106,7 +104,7 @@ func main() {
 			break
 		}
 
-		time.Sleep(time.Second / 2)
+		time.Sleep(time.Millisecond)
 		utils.ClearScreen()
 	}
 

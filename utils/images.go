@@ -34,6 +34,7 @@ func LoadImage(imagePath string) image.Image {
 
 func SaveImage(imagePath string, image *image.RGBA) {
 	imageFile, err := os.Create(imagePath)
+
 	defer func(imageFile *os.File) {
 		err := imageFile.Close()
 		if err != nil {
