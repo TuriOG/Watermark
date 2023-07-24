@@ -2,7 +2,7 @@
 
 
 ## How it works:
-https://user-images.githubusercontent.com/56275523/230953522-44699ccb-9c8f-4d04-bcf5-d4c7a2981c75.mp4
+https://github.com/TuriOG/Watermark/assets/56275523/7de58a49-fd7d-4942-8409-3d4996734502
 
 
 ## Why?
